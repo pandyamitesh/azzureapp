@@ -2,21 +2,24 @@ package com.cms.demo;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@EnableOAuth2Sso
 public class Application {
 
     @RequestMapping("/")
-    public String home() throws UnknownHostException {
+    public String home(Principal user) throws UnknownHostException {
     	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     	Date date = new Date();
 				String myvar = "<!DOCTYPE html>"+
@@ -66,7 +69,7 @@ public class Application {
 				"</ul>"+
 				""+
 				"<div style=\"margin-left:25%;padding:1px 16px;height:1000px;\">"+
-				"  <h2>Hello + Mitesh K8 Chandra CMS </h2>"+
+				"  <h2>Hello "+ user.getName() + " </h2>"+
 				"  <h3>This Application is Served from </h3> <h1 style=\"border: 2px solid Tomato;\"> Host Name :- "+  InetAddress.getLocalHost().getHostName()
 				+"<h1 style=\"border: 2px solid DodgerBlue;\"> IP Address :- "+  InetAddress.getLocalHost().getHostAddress()
 				+"<h1 style=\"border: 2px solid Violet;\"> Date Time :- "+ dateFormat.format(date) 
