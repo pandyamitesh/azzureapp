@@ -18,7 +18,7 @@ public class Application {
     @RequestMapping("/")
     public String home() throws UnknownHostException {
     	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String userName = "Mitesh"; 
+		String userName = "Mitesh Jenkins"; 
 
 
 
