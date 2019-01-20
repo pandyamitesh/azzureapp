@@ -1,0 +1,67 @@
+---
+# AzzureApp Server Microservice
+apiVersion: v1
+data:
+  AZ_SERVER_SERVER_PORT: "7081"
+  RABBITMQ_HOST: "rabbitmq-svc"
+  RABBITMQ_PORT: "5672"  
+kind: ConfigMap
+metadata:
+  name: azureappserver-ms-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureappserver-svc
+spec:
+  ports:
+  - port: 7081
+    targetPort: 7081
+  selector:
+    app: azureappserver
+---
+apiVersion: apps/v1beta1 
+kind: Deployment
+metadata:
+  name: azureappserver-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: azureappserver
+    spec:
+      containers:
+      - name: azureappserver-container
+        image: pandyamitesh/azureappserver:0.0.1-SNAPSHOT
+        imagePullPolicy: Always       
+        ports:
+        - containerPort: 7081
+          protocol: "TCP"    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureappserver-nodeport
+spec:
+  type: NodePort
+  ports:
+  - port: 7081
+    targetPort: 7081
+    nodePort: 30781
+    name: az-http  
+  selector:
+    app: azureappserver
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureappserver-lb
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 32768
+    targetPort: 7081
+    name: az-lb  
+  selector:
+    app: azureappserver

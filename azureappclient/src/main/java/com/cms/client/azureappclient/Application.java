@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -108,10 +109,16 @@ public class Application {
 		return new RestTemplate();
 	}
 
+	@Value("${azzureserverms.host}")
+	private String azzureserverMSHost;
+
+	@Value("${azzureserverms.port}")
+	private String azzureserverMSPort;
+
 	@RequestMapping("/h1")
 	public String webchaining() {
-
-		ResponseEntity<String> response = restTemplate().getForEntity("http://localhost:7081/", String.class);
+		String URL = "http://" + azzureserverMSHost + ":" + azzureserverMSPort ;
+		ResponseEntity<String> response = restTemplate().getForEntity(URL, String.class);
 		return "Chaining " + response.getBody();
 		
 	}
