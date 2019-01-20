@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "azureappclient"
+		},
+		{
+			"path": "azureappserver",
+			"name": "azureappserver"
+		}
+	],
+	"settings": {}
+}
