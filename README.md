@@ -11,3 +11,12 @@ mvn clean install spring-boot:run
 docker container rm $(docker container ls -aq);
 docker rmi $(docker images -a -q);
 echo  done;
+
+
+# Ask Git to Prompt for password
+
+git config --local credential.helper ""
+git push origin master
+
+# Run RabbitMQ Docker locally
+docker run -it  -p 15672:15672 -p 5672:5672 rabbitmq:3-management
